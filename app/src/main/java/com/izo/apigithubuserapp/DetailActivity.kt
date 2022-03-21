@@ -1,8 +1,10 @@
 package com.izo.apigithubuserapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
@@ -56,17 +58,41 @@ class DetailActivity : AppCompatActivity() {
         }.attach()
         supportActionBar?.elevation = 0f
         supportActionBar?.title = "Detail User"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        detailViewModel.findDetailUser(username)
 
         // observe detailUser
-        detailViewModel.detailUser.observe(this){items ->
+//        detailViewModel.detailUser.observe(this){items ->
+//            if (items == null){
+//                detailViewModel.findDetailUser(username)
+//            } else {
+//                setRecapLayout(items)
+//            }
+//        }
+
+        if (savedInstanceState == null) {
+            detailViewModel.findDetailUser(username)
+            Log.e(TAG, "Get Detail User")
+        }
+
+        detailViewModel.detailUser.observe(this) { items ->
             setRecapLayout(items)
         }
+
+//        detailViewModel.findDetailUser(username)
+//        detailViewModel.detailUser.observe(this){items ->
+//            setRecapLayout(items)
+//        }
 
         detailViewModel.isLoading.observe(this){
             showLoading(it)
         }
+
+//        detailBinding.ivBack.setOnClickListener {
+//            val moveIntent = Intent(this@DetailActivity, MainActivity::class.java)
+//            startActivity(moveIntent)
+//            finish()
+//        }
     }
 
     private fun setRecapLayout(items: DetailUserResponse) {
@@ -78,7 +104,7 @@ class DetailActivity : AppCompatActivity() {
 
         detailBinding.tvUsername.text = items.login
         detailBinding.tvName.text = items.name
-        detailBinding.tvRepository.text = items.publicRepos.toString()
+        detailBinding.tvRepository.text = "Repository : ${items.publicRepos.toString()}"
         detailBinding.tvCompany.text = items.company
         detailBinding.tvLocation.text = items.location
     }
@@ -86,5 +112,12 @@ class DetailActivity : AppCompatActivity() {
 
     private fun showLoading(isLoading: Boolean){
         detailBinding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            onBackPressed()
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

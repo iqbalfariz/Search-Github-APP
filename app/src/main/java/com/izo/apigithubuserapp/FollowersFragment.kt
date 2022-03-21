@@ -46,17 +46,29 @@ class FollowersFragment : Fragment() {
         val itemDecoration = DividerItemDecoration(requireActivity(), layoutManager.orientation)
         binding.rvFollowers.addItemDecoration(itemDecoration)
 
-        // panggil view model
-        followersViewModel.findFollowers(username)
+
+
 
         // observe list followers
-        followersViewModel.listFollowers.observe(requireActivity()){ items ->
-            setRecyclerView(items)
+//        followersViewModel.listFollowers.observe(requireActivity()){ items ->
+//            if (items == null){
+//                // panggil view model
+//                followersViewModel.findFollowers(username)
+//            } else {
+//                setRecyclerView(items)
+//            }
+//        }
+
+        if (savedInstanceState == null) {
+            followersViewModel.findFollowers(username)
+            Log.e(TAG, "Get Followers")
         }
 
-        followersViewModel.isLoading.observe(requireActivity()){
-            showLoading(it)
+        followersViewModel.listFollowers.observe(requireActivity()) { items ->
+            setRecyclerView(items)
+            binding.tvTotalFollowers.text = "Total data followers : ${items.size}"
         }
+
     }
 
 
@@ -69,8 +81,5 @@ class FollowersFragment : Fragment() {
     }
 
 
-    private fun showLoading(isLoading: Boolean) {
-        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-    }
 
 }

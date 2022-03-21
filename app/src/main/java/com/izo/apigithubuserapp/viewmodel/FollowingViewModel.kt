@@ -25,9 +25,9 @@ class FollowingViewModel: ViewModel() {
         private const val TAG = "FollowingFragment"
     }
 
-    init {
-        findFollowing(username)
-    }
+//    init {
+//        findFollowing(username)
+//    }
 
     fun findFollowing(username: String?) {
         _isLoading.value = true
@@ -42,7 +42,6 @@ class FollowingViewModel: ViewModel() {
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
-//                        Log.e(TAG, "List following : ${responseBody}")
                         _listFollowing.value = responseBody
                     } else {
                         Log.e(TAG, "onFailure: ${response.message()}")

@@ -46,11 +46,24 @@ class FollowingFragment : Fragment() {
         val itemDecoration = DividerItemDecoration(requireActivity(), layoutManager.orientation)
         binding.rvFollowing.addItemDecoration(itemDecoration)
 
-        followingViewModel.findFollowing(username)
 
         //observe list following
-        followingViewModel.listFollowing.observe(requireActivity()){ items ->
+//        followingViewModel.listFollowing.observe(requireActivity()){ items ->
+//            if (items == null){
+//                followingViewModel.findFollowing(username)
+//            } else {
+//                setRecyclerView(items)
+//            }
+//        }
+
+        if (savedInstanceState == null) {
+            followingViewModel.findFollowing(username)
+            Log.e(TAG, "Get Following")
+        }
+
+        followingViewModel.listFollowing.observe(requireActivity()) {items ->
             setRecyclerView(items)
+            binding.tvTotalFollowing.text = "Total data following : ${items.size}"
         }
 
         followingViewModel.isLoading.observe(requireActivity()){

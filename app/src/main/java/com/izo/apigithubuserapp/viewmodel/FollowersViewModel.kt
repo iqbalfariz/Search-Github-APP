@@ -1,6 +1,7 @@
 package com.izo.apigithubuserapp.viewmodel
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,8 +17,6 @@ class FollowersViewModel: ViewModel() {
     private val _listFollowers = MutableLiveData<List<ItemsItem>>()
     val listFollowers: LiveData<List<ItemsItem>> = _listFollowers
 
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> = _isLoading
 
     var username: String? = "username"
 
@@ -26,12 +25,11 @@ class FollowersViewModel: ViewModel() {
         private const val TAG = "FollowersFragment"
     }
 
-    init {
-        findFollowers(username)
-    }
+//    init {
+//        findFollowers(username)
+//    }
 
     fun findFollowers(username: String?) {
-        _isLoading.value = true
         val client = ApiConfig.getApiService().getFollowers(username)
         client.enqueue(object : retrofit2.Callback<List<ItemsItem>>{
             override fun onResponse(
@@ -39,11 +37,9 @@ class FollowersViewModel: ViewModel() {
                 response: Response<List<ItemsItem>>
             ) {
                 // jika koneksi berhasil
-                _isLoading.value = false
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
-                        Log.e(TAG, "List followers : ${responseBody}")
                         _listFollowers.value = responseBody
                     } else {
                         Log.e(TAG, "onFailure: ${response.message()}")
@@ -52,7 +48,6 @@ class FollowersViewModel: ViewModel() {
             }
 
             override fun onFailure(call: Call<List<ItemsItem>>, t: Throwable) {
-                _isLoading.value = false
                 Log.e(TAG, "onFailure: ${t.message}")
             }
 

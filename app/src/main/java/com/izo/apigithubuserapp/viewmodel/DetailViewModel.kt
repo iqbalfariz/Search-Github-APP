@@ -26,9 +26,9 @@ class DetailViewModel: ViewModel() {
         private const val TAG = "DetailActivity"
     }
 
-    init {
-        findDetailUser(username)
-    }
+//    init {
+//        findDetailUser(username)
+//    }
 
     fun findDetailUser(username: String?) {
         _isLoading.value = true
@@ -43,7 +43,6 @@ class DetailViewModel: ViewModel() {
                     val responseBody = response.body()
                     if (responseBody != null) {
                         _isLoading.value = false
-                        Log.e(TAG, "id: ${responseBody.id}")
                         _detailUser.value = responseBody
                     }
                 } else {

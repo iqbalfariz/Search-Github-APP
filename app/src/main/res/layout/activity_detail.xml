@@ -15,8 +15,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/tabs"
-        android:background="@color/teal_green"
+        android:background="@color/black"
         >
+
+
 
         <ImageView
             android:id="@+id/ivAvatar"
@@ -66,20 +68,9 @@
             android:layout_marginEnd="16dp"
             app:layout_constraintTop_toBottomOf="@id/tv_name"
             app:layout_constraintBottom_toBottomOf="@id/recap_layout"
-            android:orientation="horizontal"
+            android:orientation="vertical"
+            android:gravity="center"
             >
-
-            <TextView
-                android:id="@+id/tv_repository"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="repository"
-                android:textSize="16sp"
-                android:textColor="@color/white"
-                android:drawableLeft="@drawable/ic_baseline_repository"
-                android:drawablePadding="8dp"
-                android:layout_weight="3"
-                />
 
             <TextView
                 android:id="@+id/tv_company"
@@ -92,6 +83,7 @@
                 android:drawablePadding="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_weight="3"
+                android:maxLines="1"
                 />
 
             <TextView
@@ -105,6 +97,19 @@
                 android:drawablePadding="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_weight="3"
+                android:maxLines="1"
+                />
+
+            <TextView
+                android:id="@+id/tv_repository"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="repository"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:drawablePadding="8dp"
+                android:layout_weight="3"
+                android:maxLines="1"
                 />
 
         </LinearLayout>
@@ -117,11 +122,11 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/teal_200"
+        android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/recap_layout"
-        app:tabTextColor="@android:color/white"
+        app:tabTextColor="@color/black_light"
         />
 
     <androidx.viewpager2.widget.ViewPager2

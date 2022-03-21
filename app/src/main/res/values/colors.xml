@@ -5,7 +5,8 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
+    <color name="black">#180A0A</color>
+    <color name="black_light">#3A3845</color>
     <color name="white">#FFFFFFFF</color>
     <color name="green">#019267</color>
     <color name="teal_green">#00C897</color>
