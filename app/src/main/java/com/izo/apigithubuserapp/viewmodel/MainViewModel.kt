@@ -37,7 +37,6 @@ class MainViewModel: ViewModel() {
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
-                        Log.e(TAG, "list : ${responseBody.items}")
                         _listData.value = responseBody?.items
                     }
                 } else {

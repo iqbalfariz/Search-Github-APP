@@ -3,9 +3,10 @@ package com.izo.apigithubuserapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
+import android.util.Log
 import android.view.View
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,13 +28,7 @@ class MainActivity : AppCompatActivity() {
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
 
-        val layoutManager = LinearLayoutManager(this)
-        activityMainBinding.rvUser.layoutManager = layoutManager
-        val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
-        activityMainBinding.rvUser.addItemDecoration(itemDecoration)
-
-
-
+        // Mengatur search view
         activityMainBinding.svUser.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             // Jika text di submit
             override fun onQueryTextSubmit(query: String): Boolean {
@@ -41,6 +36,7 @@ class MainActivity : AppCompatActivity() {
                 activityMainBinding.svUser.clearFocus()
                 return true
             }
+            // jika text berubah
             override fun onQueryTextChange(newText: String): Boolean {
                 return false
             }
@@ -49,7 +45,11 @@ class MainActivity : AppCompatActivity() {
 
         // observe list data
         mainViewModel.listData.observe(this@MainActivity){ items ->
-            setData(items)
+            if (items.size == 0){
+                Toast.makeText(this@MainActivity, "Error : Data tidak ada", Toast.LENGTH_LONG).show()
+            } else {
+                setData(items)
+            }
         }
 
         // observe loading progress bar
@@ -58,9 +58,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-
     private fun setData(items: List<ItemsItem>) {
+        val layoutManager = LinearLayoutManager(this)
+        activityMainBinding.rvUser.layoutManager = layoutManager
+        val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
+        activityMainBinding.rvUser.addItemDecoration(itemDecoration)
+
         val listUser = ArrayList<ItemsItem>()
         listUser.addAll(items)
         val adapter = UserAdapter(listUser)
@@ -71,17 +74,8 @@ class MainActivity : AppCompatActivity() {
                 val intentToDetail = Intent(this@MainActivity, DetailActivity::class.java)
                 intentToDetail.putExtra(DetailActivity.DATA, data.login)
                 startActivity(intentToDetail)
-//                Toast.makeText(this@MainActivity, "${data.login}", Toast.LENGTH_SHORT).show()
             }
         })
-    }
-
-
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.option_menu, menu)
-        return true
     }
 
     private fun showLoading(isLoading: Boolean){

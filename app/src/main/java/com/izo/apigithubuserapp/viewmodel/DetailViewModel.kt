@@ -1,12 +1,9 @@
 package com.izo.apigithubuserapp.viewmodel
 
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.izo.apigithubuserapp.DetailActivity
-import com.izo.apigithubuserapp.ItemsItem
 import com.izo.apigithubuserapp.api.ApiConfig
 import com.izo.apigithubuserapp.response.DetailUserResponse
 import retrofit2.Call
@@ -26,9 +23,6 @@ class DetailViewModel: ViewModel() {
         private const val TAG = "DetailActivity"
     }
 
-//    init {
-//        findDetailUser(username)
-//    }
 
     fun findDetailUser(username: String?) {
         _isLoading.value = true

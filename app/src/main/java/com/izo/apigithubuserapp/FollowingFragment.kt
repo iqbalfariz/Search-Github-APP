@@ -6,11 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.izo.apigithubuserapp.adapter.FollowAdapter
-import com.izo.apigithubuserapp.adapter.FollowingAdapter
 import com.izo.apigithubuserapp.databinding.FragmentFollowingBinding
 import com.izo.apigithubuserapp.viewmodel.FollowingViewModel
 
@@ -37,33 +37,20 @@ class FollowingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Mengambil data username dari detail
         val args = arguments
         val username = args?.getString(DetailActivity.DATA)
         Log.e(TAG, "username following: ${username}")
 
-        val layoutManager = LinearLayoutManager(requireActivity())
-        binding.rvFollowing.layoutManager = layoutManager
-        val itemDecoration = DividerItemDecoration(requireActivity(), layoutManager.orientation)
-        binding.rvFollowing.addItemDecoration(itemDecoration)
-
-
-        //observe list following
-//        followingViewModel.listFollowing.observe(requireActivity()){ items ->
-//            if (items == null){
-//                followingViewModel.findFollowing(username)
-//            } else {
-//                setRecyclerView(items)
-//            }
-//        }
-
+        // Mengambil data api
         if (savedInstanceState == null) {
             followingViewModel.findFollowing(username)
             Log.e(TAG, "Get Following")
         }
 
+        // Observe list following
         followingViewModel.listFollowing.observe(requireActivity()) {items ->
-            setRecyclerView(items)
-            binding.tvTotalFollowing.text = "Total data following : ${items.size}"
+                setRecyclerView(items)
         }
 
         followingViewModel.isLoading.observe(requireActivity()){
@@ -73,6 +60,11 @@ class FollowingFragment : Fragment() {
 
 
     private fun setRecyclerView(items: List<ItemsItem>) {
+        val layoutManager = LinearLayoutManager(requireActivity())
+        binding.rvFollowing.layoutManager = layoutManager
+        val itemDecoration = DividerItemDecoration(requireActivity(), layoutManager.orientation)
+        binding.rvFollowing.addItemDecoration(itemDecoration)
+
         val listFollowing = ArrayList<ItemsItem>()
         listFollowing.addAll(items)
         val adapter = FollowAdapter(listFollowing)

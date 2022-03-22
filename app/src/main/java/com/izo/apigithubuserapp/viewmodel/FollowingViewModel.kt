@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.izo.apigithubuserapp.FollowingFragment
 import com.izo.apigithubuserapp.ItemsItem
 import com.izo.apigithubuserapp.api.ApiConfig
 import retrofit2.Call
@@ -24,10 +23,6 @@ class FollowingViewModel: ViewModel() {
     companion object {
         private const val TAG = "FollowingFragment"
     }
-
-//    init {
-//        findFollowing(username)
-//    }
 
     fun findFollowing(username: String?) {
         _isLoading.value = true

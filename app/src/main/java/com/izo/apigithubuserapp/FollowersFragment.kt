@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,43 +38,31 @@ class FollowersFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Mengambil data username dari detail
         val args = arguments
         val username = args?.getString(DetailActivity.DATA)
         Log.e(TAG, "username follower: ${username}")
 
-        val layoutManager = LinearLayoutManager(requireActivity())
-        binding.rvFollowers.layoutManager = layoutManager
-        val itemDecoration = DividerItemDecoration(requireActivity(), layoutManager.orientation)
-        binding.rvFollowers.addItemDecoration(itemDecoration)
-
-
-
-
-        // observe list followers
-//        followersViewModel.listFollowers.observe(requireActivity()){ items ->
-//            if (items == null){
-//                // panggil view model
-//                followersViewModel.findFollowers(username)
-//            } else {
-//                setRecyclerView(items)
-//            }
-//        }
-
+        // Mengambil data api
         if (savedInstanceState == null) {
             followersViewModel.findFollowers(username)
             Log.e(TAG, "Get Followers")
         }
 
+        // Observe list followers
         followersViewModel.listFollowers.observe(requireActivity()) { items ->
-            setRecyclerView(items)
-            binding.tvTotalFollowers.text = "Total data followers : ${items.size}"
+                setRecyclerView(items)
         }
 
     }
 
 
-
     private fun setRecyclerView(items: List<ItemsItem>) {
+        val layoutManager = LinearLayoutManager(requireActivity())
+        binding.rvFollowers.layoutManager = layoutManager
+        val itemDecoration = DividerItemDecoration(requireActivity(), layoutManager.orientation)
+        binding.rvFollowers.addItemDecoration(itemDecoration)
+
         val listFollowers = ArrayList<ItemsItem>()
         listFollowers.addAll(items)
         val adapter = FollowAdapter(listFollowers)

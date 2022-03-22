@@ -9,7 +9,6 @@ import com.izo.apigithubuserapp.databinding.ItemRowRvBinding
 
 class FollowAdapter(private val listFollow: List<ItemsItem>) : RecyclerView.Adapter<FollowAdapter.ViewHolder>() {
 
-
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemRowRvBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
         return ViewHolder(binding)

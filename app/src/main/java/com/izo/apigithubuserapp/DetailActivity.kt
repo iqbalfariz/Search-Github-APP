@@ -1,26 +1,22 @@
 package com.izo.apigithubuserapp
 
-import android.content.Intent
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
-import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.izo.apigithubuserapp.adapter.SectionsPagerAdapter
-import com.izo.apigithubuserapp.api.ApiConfig
 import com.izo.apigithubuserapp.databinding.ActivityDetailBinding
 import com.izo.apigithubuserapp.response.DetailUserResponse
 import com.izo.apigithubuserapp.viewmodel.DetailViewModel
-import com.izo.apigithubuserapp.viewmodel.FollowersViewModel
-import retrofit2.Call
-import retrofit2.Response
 
 class DetailActivity : AppCompatActivity() {
 
@@ -60,41 +56,24 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.title = "Detail User"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-
-        // observe detailUser
-//        detailViewModel.detailUser.observe(this){items ->
-//            if (items == null){
-//                detailViewModel.findDetailUser(username)
-//            } else {
-//                setRecapLayout(items)
-//            }
-//        }
-
+        // Mengambil data api
         if (savedInstanceState == null) {
             detailViewModel.findDetailUser(username)
             Log.e(TAG, "Get Detail User")
         }
 
+        // Observe data detail user
         detailViewModel.detailUser.observe(this) { items ->
-            setRecapLayout(items)
+                setRecapLayout(items)
         }
-
-//        detailViewModel.findDetailUser(username)
-//        detailViewModel.detailUser.observe(this){items ->
-//            setRecapLayout(items)
-//        }
 
         detailViewModel.isLoading.observe(this){
             showLoading(it)
         }
 
-//        detailBinding.ivBack.setOnClickListener {
-//            val moveIntent = Intent(this@DetailActivity, MainActivity::class.java)
-//            startActivity(moveIntent)
-//            finish()
-//        }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setRecapLayout(items: DetailUserResponse) {
         // ambil gambar avatar
         Glide.with(this)
@@ -104,9 +83,11 @@ class DetailActivity : AppCompatActivity() {
 
         detailBinding.tvUsername.text = items.login
         detailBinding.tvName.text = items.name
-        detailBinding.tvRepository.text = "Repository : ${items.publicRepos.toString()}"
+        detailBinding.tvRepository.text = "Repository : ${items.publicRepos}"
         detailBinding.tvCompany.text = items.company
         detailBinding.tvLocation.text = items.location
+        detailBinding.tvTotalFollowers.text = "Followers : ${items.followers}"
+        detailBinding.tvTotalFollowing.text = "Following : ${items.following}"
     }
 
 

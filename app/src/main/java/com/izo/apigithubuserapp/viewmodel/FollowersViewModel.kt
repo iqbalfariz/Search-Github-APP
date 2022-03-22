@@ -1,13 +1,10 @@
 package com.izo.apigithubuserapp.viewmodel
 
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.izo.apigithubuserapp.FollowersFragment
 import com.izo.apigithubuserapp.ItemsItem
-import com.izo.apigithubuserapp.UserResponse
 import com.izo.apigithubuserapp.api.ApiConfig
 import retrofit2.Call
 import retrofit2.Response
@@ -24,10 +21,6 @@ class FollowersViewModel: ViewModel() {
     companion object {
         private const val TAG = "FollowersFragment"
     }
-
-//    init {
-//        findFollowers(username)
-//    }
 
     fun findFollowers(username: String?) {
         val client = ApiConfig.getApiService().getFollowers(username)
