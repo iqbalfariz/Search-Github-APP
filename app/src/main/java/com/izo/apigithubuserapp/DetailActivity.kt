@@ -1,14 +1,13 @@
 package com.izo.apigithubuserapp
 
 import android.annotation.SuppressLint
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
@@ -64,10 +63,10 @@ class DetailActivity : AppCompatActivity() {
 
         // Observe data detail user
         detailViewModel.detailUser.observe(this) { items ->
-                setRecapLayout(items)
+            setRecapLayout(items)
         }
 
-        detailViewModel.isLoading.observe(this){
+        detailViewModel.isLoading.observe(this) {
             showLoading(it)
         }
 
@@ -91,7 +90,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
 
-    private fun showLoading(isLoading: Boolean){
+    private fun showLoading(isLoading: Boolean) {
         detailBinding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 

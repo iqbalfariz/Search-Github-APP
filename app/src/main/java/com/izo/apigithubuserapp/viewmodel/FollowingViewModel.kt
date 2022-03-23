@@ -9,7 +9,7 @@ import com.izo.apigithubuserapp.api.ApiConfig
 import retrofit2.Call
 import retrofit2.Response
 
-class FollowingViewModel: ViewModel() {
+class FollowingViewModel : ViewModel() {
 
     private val _listFollowing = MutableLiveData<List<ItemsItem>>()
     val listFollowing: LiveData<List<ItemsItem>> = _listFollowing
@@ -20,14 +20,10 @@ class FollowingViewModel: ViewModel() {
     var username: String? = "username"
 
 
-    companion object {
-        private const val TAG = "FollowingFragment"
-    }
-
     fun findFollowing(username: String?) {
         _isLoading.value = true
         val client = ApiConfig.getApiService().getFollowing(username)
-        client.enqueue(object : retrofit2.Callback<List<ItemsItem>>{
+        client.enqueue(object : retrofit2.Callback<List<ItemsItem>> {
             override fun onResponse(
                 call: Call<List<ItemsItem>>,
                 response: Response<List<ItemsItem>>
@@ -37,7 +33,7 @@ class FollowingViewModel: ViewModel() {
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
-                        _listFollowing.value = responseBody
+                        _listFollowing.value = responseBody!!
                     } else {
                         Log.e(TAG, "onFailure: ${response.message()}")
                     }
@@ -50,5 +46,9 @@ class FollowingViewModel: ViewModel() {
             }
 
         })
+    }
+
+    companion object {
+        private const val TAG = "FollowingFragment"
     }
 }

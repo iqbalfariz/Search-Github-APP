@@ -2,11 +2,10 @@ package com.izo.apigithubuserapp
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -49,11 +48,11 @@ class FollowingFragment : Fragment() {
         }
 
         // Observe list following
-        followingViewModel.listFollowing.observe(requireActivity()) {items ->
-                setRecyclerView(items)
+        followingViewModel.listFollowing.observe(requireActivity()) { items ->
+            setRecyclerView(items)
         }
 
-        followingViewModel.isLoading.observe(requireActivity()){
+        followingViewModel.isLoading.observe(requireActivity()) {
             showLoading(it)
         }
     }

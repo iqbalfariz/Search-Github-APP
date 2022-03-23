@@ -10,7 +10,7 @@ import com.izo.apigithubuserapp.api.ApiConfig
 import retrofit2.Call
 import retrofit2.Response
 
-class MainViewModel: ViewModel() {
+class MainViewModel : ViewModel() {
 
     private val _listData = MutableLiveData<List<ItemsItem>>()
     val listData: LiveData<List<ItemsItem>> = _listData
@@ -19,18 +19,14 @@ class MainViewModel: ViewModel() {
     val isLoading: LiveData<Boolean> = _isLoading
 
 
-    companion object {
-        private const val TAG = "MainActivity"
-    }
-
     init {
         findUser("iqbal")
     }
 
-    fun findUser(USERNAME: String){
+    fun findUser(USERNAME: String) {
         _isLoading.value = true
         val client = ApiConfig.getApiService().getListUser(USERNAME)
-        client.enqueue(object : retrofit2.Callback<UserResponse>{
+        client.enqueue(object : retrofit2.Callback<UserResponse> {
             override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
                 // jika koneksi sukses
                 _isLoading.value = false
@@ -53,6 +49,8 @@ class MainViewModel: ViewModel() {
         })
     }
 
-
+    companion object {
+        private const val TAG = "MainActivity"
+    }
 
 }

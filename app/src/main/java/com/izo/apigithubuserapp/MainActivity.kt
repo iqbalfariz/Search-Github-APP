@@ -1,13 +1,12 @@
 package com.izo.apigithubuserapp
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.izo.apigithubuserapp.adapter.UserAdapter
@@ -29,13 +28,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(activityMainBinding.root)
 
         // Mengatur search view
-        activityMainBinding.svUser.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+        activityMainBinding.svUser.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             // Jika text di submit
             override fun onQueryTextSubmit(query: String): Boolean {
                 mainViewModel.findUser(query)
                 activityMainBinding.svUser.clearFocus()
                 return true
             }
+
             // jika text berubah
             override fun onQueryTextChange(newText: String): Boolean {
                 return false
@@ -44,9 +44,10 @@ class MainActivity : AppCompatActivity() {
         })
 
         // observe list data
-        mainViewModel.listData.observe(this@MainActivity){ items ->
-            if (items.size == 0){
-                Toast.makeText(this@MainActivity, "Error : Data tidak ada", Toast.LENGTH_LONG).show()
+        mainViewModel.listData.observe(this@MainActivity) { items ->
+            if (items.size == 0) {
+                Toast.makeText(this@MainActivity, "Error : Data tidak ada", Toast.LENGTH_LONG)
+                    .show()
             } else {
                 setData(items)
             }
@@ -69,7 +70,7 @@ class MainActivity : AppCompatActivity() {
         val adapter = UserAdapter(listUser)
         activityMainBinding.rvUser.adapter = adapter
 
-        adapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback{
+        adapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback {
             override fun onItemClicked(data: ItemsItem) {
                 val intentToDetail = Intent(this@MainActivity, DetailActivity::class.java)
                 intentToDetail.putExtra(DetailActivity.DATA, data.login)
@@ -78,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun showLoading(isLoading: Boolean){
+    private fun showLoading(isLoading: Boolean) {
         activityMainBinding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 

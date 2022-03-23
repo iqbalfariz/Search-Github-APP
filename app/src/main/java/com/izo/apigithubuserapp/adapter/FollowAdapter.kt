@@ -7,10 +7,12 @@ import com.bumptech.glide.Glide
 import com.izo.apigithubuserapp.ItemsItem
 import com.izo.apigithubuserapp.databinding.ItemRowRvBinding
 
-class FollowAdapter(private val listFollow: List<ItemsItem>) : RecyclerView.Adapter<FollowAdapter.ViewHolder>() {
+class FollowAdapter(private val listFollow: List<ItemsItem>) :
+    RecyclerView.Adapter<FollowAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemRowRvBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+        val binding =
+            ItemRowRvBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
         return ViewHolder(binding)
     }
 
@@ -26,6 +28,6 @@ class FollowAdapter(private val listFollow: List<ItemsItem>) : RecyclerView.Adap
 
     override fun getItemCount(): Int = listFollow.size
 
-    class ViewHolder(var binding: ItemRowRvBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class ViewHolder(var binding: ItemRowRvBinding) : RecyclerView.ViewHolder(binding.root)
 
 }

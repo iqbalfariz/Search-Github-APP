@@ -7,7 +7,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.izo.apigithubuserapp.FollowersFragment
 import com.izo.apigithubuserapp.FollowingFragment
 
-class SectionsPagerAdapter(activity: AppCompatActivity, data: Bundle) : FragmentStateAdapter(activity) {
+class SectionsPagerAdapter(activity: AppCompatActivity, data: Bundle) :
+    FragmentStateAdapter(activity) {
 
     private var fragmentBundle: Bundle
 

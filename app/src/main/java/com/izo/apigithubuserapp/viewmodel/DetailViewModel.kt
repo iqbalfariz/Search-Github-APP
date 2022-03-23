@@ -19,11 +19,6 @@ class DetailViewModel: ViewModel() {
     var username: String? = "username"
 
 
-    companion object {
-        private const val TAG = "DetailActivity"
-    }
-
-
     fun findDetailUser(username: String?) {
         _isLoading.value = true
         val client = ApiConfig.getApiService().getUser(username)
@@ -37,7 +32,7 @@ class DetailViewModel: ViewModel() {
                     val responseBody = response.body()
                     if (responseBody != null) {
                         _isLoading.value = false
-                        _detailUser.value = responseBody
+                        _detailUser.value = responseBody!!
                     }
                 } else {
                     _isLoading.value = false
@@ -51,5 +46,9 @@ class DetailViewModel: ViewModel() {
             }
 
         })
+    }
+
+    companion object {
+        private const val TAG = "DetailActivity"
     }
 }

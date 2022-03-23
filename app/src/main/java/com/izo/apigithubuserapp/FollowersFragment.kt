@@ -1,16 +1,15 @@
 package com.izo.apigithubuserapp
 
-import com.izo.apigithubuserapp.adapter.FollowAdapter
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.izo.apigithubuserapp.adapter.FollowAdapter
 import com.izo.apigithubuserapp.databinding.FragmentFollowersBinding
 import com.izo.apigithubuserapp.viewmodel.FollowersViewModel
 
@@ -51,7 +50,7 @@ class FollowersFragment : Fragment() {
 
         // Observe list followers
         followersViewModel.listFollowers.observe(requireActivity()) { items ->
-                setRecyclerView(items)
+            setRecyclerView(items)
         }
 
     }
@@ -68,7 +67,6 @@ class FollowersFragment : Fragment() {
         val adapter = FollowAdapter(listFollowers)
         binding.rvFollowers.adapter = adapter
     }
-
 
 
 }

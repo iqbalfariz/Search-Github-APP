@@ -1,11 +1,14 @@
 package com.izo.apigithubuserapp.api
 
 import com.izo.apigithubuserapp.BuildConfig
-import com.izo.apigithubuserapp.response.DetailUserResponse
 import com.izo.apigithubuserapp.ItemsItem
 import com.izo.apigithubuserapp.UserResponse
+import com.izo.apigithubuserapp.response.DetailUserResponse
 import retrofit2.Call
-import retrofit2.http.*
+import retrofit2.http.GET
+import retrofit2.http.Headers
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
 

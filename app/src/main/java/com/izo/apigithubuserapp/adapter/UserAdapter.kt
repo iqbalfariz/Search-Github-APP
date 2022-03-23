@@ -7,7 +7,8 @@ import com.bumptech.glide.Glide
 import com.izo.apigithubuserapp.ItemsItem
 import com.izo.apigithubuserapp.databinding.ItemRowRvBinding
 
-class UserAdapter(private val listUser: List<ItemsItem>) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
+class UserAdapter(private val listUser: List<ItemsItem>) :
+    RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
     private lateinit var onItemClickCallback: OnItemClickCallback
 
@@ -16,7 +17,8 @@ class UserAdapter(private val listUser: List<ItemsItem>) : RecyclerView.Adapter<
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemRowRvBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+        val binding =
+            ItemRowRvBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
         return ViewHolder(binding)
     }
 
@@ -35,7 +37,7 @@ class UserAdapter(private val listUser: List<ItemsItem>) : RecyclerView.Adapter<
 
     override fun getItemCount(): Int = listUser.size
 
-    class ViewHolder(var binding: ItemRowRvBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class ViewHolder(var binding: ItemRowRvBinding) : RecyclerView.ViewHolder(binding.root)
 
     interface OnItemClickCallback {
         fun onItemClicked(data: ItemsItem)
