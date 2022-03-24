@@ -1,4 +1,4 @@
-package com.izo.apigithubuserapp.api
+package com.izo.apigithubuserapp.data.remote.api
 
 import com.izo.apigithubuserapp.BuildConfig
 import okhttp3.OkHttpClient

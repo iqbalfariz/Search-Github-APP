@@ -1,4 +1,4 @@
-package com.izo.apigithubuserapp
+package com.izo.apigithubuserapp.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.izo.apigithubuserapp.ItemsItem
 import com.izo.apigithubuserapp.adapter.UserAdapter
 import com.izo.apigithubuserapp.databinding.ActivityMainBinding
 import com.izo.apigithubuserapp.viewmodel.MainViewModel

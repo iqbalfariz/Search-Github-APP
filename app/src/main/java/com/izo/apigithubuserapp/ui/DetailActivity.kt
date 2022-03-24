@@ -1,4 +1,4 @@
-package com.izo.apigithubuserapp
+package com.izo.apigithubuserapp.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -12,9 +12,10 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.izo.apigithubuserapp.R
 import com.izo.apigithubuserapp.adapter.SectionsPagerAdapter
 import com.izo.apigithubuserapp.databinding.ActivityDetailBinding
-import com.izo.apigithubuserapp.response.DetailUserResponse
+import com.izo.apigithubuserapp.data.remote.response.DetailUserResponse
 import com.izo.apigithubuserapp.viewmodel.DetailViewModel
 
 class DetailActivity : AppCompatActivity() {

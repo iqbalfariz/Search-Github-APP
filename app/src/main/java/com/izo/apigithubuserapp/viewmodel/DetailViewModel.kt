@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.izo.apigithubuserapp.api.ApiConfig
-import com.izo.apigithubuserapp.response.DetailUserResponse
+import com.izo.apigithubuserapp.data.remote.api.ApiConfig
+import com.izo.apigithubuserapp.data.remote.response.DetailUserResponse
 import retrofit2.Call
 import retrofit2.Response
 

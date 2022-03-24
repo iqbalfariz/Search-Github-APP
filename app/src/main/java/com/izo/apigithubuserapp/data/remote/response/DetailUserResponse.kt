@@ -1,4 +1,4 @@
-package com.izo.apigithubuserapp.response
+package com.izo.apigithubuserapp.data.remote.response
 
 import com.google.gson.annotations.SerializedName
 

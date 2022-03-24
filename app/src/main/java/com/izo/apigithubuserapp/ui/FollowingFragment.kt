@@ -1,4 +1,4 @@
-package com.izo.apigithubuserapp
+package com.izo.apigithubuserapp.ui
 
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.izo.apigithubuserapp.ItemsItem
 import com.izo.apigithubuserapp.adapter.FollowAdapter
 import com.izo.apigithubuserapp.databinding.FragmentFollowingBinding
 import com.izo.apigithubuserapp.viewmodel.FollowingViewModel

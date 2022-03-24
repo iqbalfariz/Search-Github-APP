@@ -1,9 +1,9 @@
-package com.izo.apigithubuserapp.api
+package com.izo.apigithubuserapp.data.remote.api
 
 import com.izo.apigithubuserapp.BuildConfig
 import com.izo.apigithubuserapp.ItemsItem
 import com.izo.apigithubuserapp.UserResponse
-import com.izo.apigithubuserapp.response.DetailUserResponse
+import com.izo.apigithubuserapp.data.remote.response.DetailUserResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Headers
