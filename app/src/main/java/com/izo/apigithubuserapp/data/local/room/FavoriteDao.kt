@@ -7,11 +7,11 @@ import com.izo.apigithubuserapp.data.local.entity.FavoriteEntity
 @Dao
 interface FavoriteDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(favorite: List<FavoriteEntity>)
+    fun insertFavorite(favorite: FavoriteEntity)
     @Update
-    fun update(favorite: List<FavoriteEntity>)
+    fun updateFavorite(favorite: FavoriteEntity)
     @Delete
-    fun delete(favorite: List<FavoriteEntity>)
+    fun deleteFavorite(favorite: FavoriteEntity)
     @Query("SELECT * from favorite ORDER BY id ASC")
     fun getFavorite(): LiveData<List<FavoriteEntity>>
 }

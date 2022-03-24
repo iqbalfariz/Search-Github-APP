@@ -19,6 +19,9 @@ data class DetailUserResponse(
     @field:SerializedName("avatar_url")
     val avatarUrl: String,
 
+    @field:SerializedName("url")
+    val url: String,
+
     @field:SerializedName("name")
     val name: String,
 
