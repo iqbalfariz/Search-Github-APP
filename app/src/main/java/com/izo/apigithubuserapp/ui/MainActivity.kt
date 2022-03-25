@@ -13,8 +13,8 @@ import com.izo.apigithubuserapp.ItemsItem
 import com.izo.apigithubuserapp.adapter.UserAdapter
 import com.izo.apigithubuserapp.data.Result
 import com.izo.apigithubuserapp.databinding.ActivityMainBinding
-import com.izo.apigithubuserapp.viewmodel.DetailViewModel
 import com.izo.apigithubuserapp.viewmodel.MainViewModel
+import com.izo.apigithubuserapp.viewmodel.ViewModelFactory
 
 class MainActivity : AppCompatActivity() {
 

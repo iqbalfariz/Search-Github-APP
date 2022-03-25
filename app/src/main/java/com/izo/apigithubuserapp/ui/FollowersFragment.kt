@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -15,14 +14,14 @@ import com.izo.apigithubuserapp.ItemsItem
 import com.izo.apigithubuserapp.adapter.FollowAdapter
 import com.izo.apigithubuserapp.data.Result
 import com.izo.apigithubuserapp.databinding.FragmentFollowersBinding
-import com.izo.apigithubuserapp.viewmodel.DetailViewModel
 import com.izo.apigithubuserapp.viewmodel.FollowersViewModel
+import com.izo.apigithubuserapp.viewmodel.ViewModelFactory
 
 class FollowersFragment : Fragment() {
 
     private var _binding: FragmentFollowersBinding? = null
     private val binding get() = _binding!!
-    private val followersViewModel by viewModels<FollowersViewModel>()
+//    private val followersViewModel by viewModels<FollowersViewModel>()
 
     companion object {
         private const val TAG = "FollowersFragment"

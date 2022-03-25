@@ -1,9 +1,7 @@
 package com.izo.apigithubuserapp.ui
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -21,6 +19,7 @@ import com.izo.apigithubuserapp.data.local.entity.FavoriteEntity
 import com.izo.apigithubuserapp.databinding.ActivityDetailBinding
 import com.izo.apigithubuserapp.data.remote.response.DetailUserResponse
 import com.izo.apigithubuserapp.viewmodel.DetailViewModel
+import com.izo.apigithubuserapp.viewmodel.ViewModelFactory
 
 class DetailActivity : AppCompatActivity() {
 

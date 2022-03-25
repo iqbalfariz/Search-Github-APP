@@ -1,14 +1,10 @@
-package com.izo.apigithubuserapp.ui
+package com.izo.apigithubuserapp.viewmodel
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.izo.apigithubuserapp.data.UserRepository
 import com.izo.apigithubuserapp.di.Injection
-import com.izo.apigithubuserapp.viewmodel.DetailViewModel
-import com.izo.apigithubuserapp.viewmodel.FollowersViewModel
-import com.izo.apigithubuserapp.viewmodel.FollowingViewModel
-import com.izo.apigithubuserapp.viewmodel.MainViewModel
 
 class ViewModelFactory private constructor(private val userRepository: UserRepository) :
     ViewModelProvider.NewInstanceFactory() {

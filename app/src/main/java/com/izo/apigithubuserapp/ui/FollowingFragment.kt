@@ -14,14 +14,14 @@ import com.izo.apigithubuserapp.ItemsItem
 import com.izo.apigithubuserapp.adapter.FollowAdapter
 import com.izo.apigithubuserapp.data.Result
 import com.izo.apigithubuserapp.databinding.FragmentFollowingBinding
-import com.izo.apigithubuserapp.viewmodel.FollowersViewModel
 import com.izo.apigithubuserapp.viewmodel.FollowingViewModel
+import com.izo.apigithubuserapp.viewmodel.ViewModelFactory
 
 class FollowingFragment : Fragment() {
 
     private var _binding: FragmentFollowingBinding? = null
     private val binding get() = _binding!!
-    private val followingViewModel by viewModels<FollowingViewModel>()
+//    private val followingViewModel by viewModels<FollowingViewModel>()
 
     companion object {
         private const val TAG = "FollowingFragment"
