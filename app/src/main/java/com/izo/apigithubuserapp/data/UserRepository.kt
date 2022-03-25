@@ -24,7 +24,7 @@ class UserRepository private constructor(
     private val appExecutors: AppExecutors
 ) {
 //    private val result = MediatorLiveData<Result<LiveData<DetailUserResponse>>>()
-
+   val result = MutableLiveData<Result<List<ItemsItem>>>()
     // Mengambil data detail user
     fun getDetailUser(username: String?): LiveData<Result<DetailUserResponse>> {
         val result = MutableLiveData<Result<DetailUserResponse>>()
@@ -55,8 +55,8 @@ class UserRepository private constructor(
     }
 
     // Mengambil user dari key search
-    fun findUser(username: String?): LiveData<Result<List<ItemsItem>>> {
-        val result = MutableLiveData<Result<List<ItemsItem>>>()
+    // Mengambil user dari key search
+    fun findUser(username: String?): MutableLiveData<Result<List<ItemsItem>>> {
         result.value = Result.Loading
         val client = apiService.getListUser(username)
         client.enqueue(object : retrofit2.Callback<UserResponse> {

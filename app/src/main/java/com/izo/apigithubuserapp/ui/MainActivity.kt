@@ -19,6 +19,7 @@ import com.izo.apigithubuserapp.viewmodel.ViewModelFactory
 class MainActivity : AppCompatActivity() {
 
     private lateinit var activityMainBinding: ActivityMainBinding
+    private lateinit var adapter: UserAdapter
 //    private val mainViewModel by viewModels<MainViewModel>()
 
     companion object {
@@ -35,48 +36,7 @@ class MainActivity : AppCompatActivity() {
             factory
         }
 
-
-        // Mengatur search view
-        activityMainBinding.svUser.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            // Jika text di submit
-            override fun onQueryTextSubmit(query: String): Boolean {
-                mainViewModel.findUser(query).observe(this@MainActivity) { result ->
-                    if (result != null) {
-                        when (result) {
-                            is Result.Loading -> {
-                                showLoading(true)
-                            }
-                            is Result.Success -> {
-                                showLoading(false)
-                                setData(result.data)
-                            }
-                            is Result.Error -> {
-                                showLoading(false)
-                                Toast.makeText(
-                                    this@MainActivity,
-                                    "Terjadi kesalahan" + result.error,
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        }
-                    }
-                }
-                activityMainBinding.svUser.clearFocus()
-                return true
-            }
-
-            // jika text berubah
-            override fun onQueryTextChange(newText: String): Boolean {
-                return false
-            }
-
-        })
-
-
-    }
-
-    private fun getData(username: String?, mainViewModel: MainViewModel) {
-        mainViewModel.findUser(username).observe(this@MainActivity) { result ->
+        mainViewModel.getSearch.observe(this) { result ->
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {
@@ -97,20 +57,34 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        // Mengatur search view
+        activityMainBinding.svUser.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            // Jika text di submit
+            override fun onQueryTextSubmit(query: String): Boolean {
+                mainViewModel.findUser(query)
+                activityMainBinding.svUser.clearFocus()
+                return true
+            }
+
+            // jika text berubah
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
+            }
+
+        })
     }
 
     private fun setData(items: List<ItemsItem>) {
+        val mainAdapter = UserAdapter(items)
+        activityMainBinding.rvUser.adapter = mainAdapter
         val layoutManager = LinearLayoutManager(this)
         activityMainBinding.rvUser.layoutManager = layoutManager
         val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
         activityMainBinding.rvUser.addItemDecoration(itemDecoration)
+        activityMainBinding.rvUser.setHasFixedSize(true)
 
-        val listUser = ArrayList<ItemsItem>()
-        listUser.addAll(items)
-        val adapter = UserAdapter(listUser)
-        activityMainBinding.rvUser.adapter = adapter
-
-        adapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback {
+        mainAdapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback {
             override fun onItemClicked(data: ItemsItem) {
                 val intentToDetail = Intent(this@MainActivity, DetailActivity::class.java)
                 intentToDetail.putExtra(DetailActivity.DATA, data.login)
