@@ -2,6 +2,8 @@ package com.izo.apigithubuserapp.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.SearchView
 import android.widget.Toast
@@ -10,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.izo.apigithubuserapp.ItemsItem
+import com.izo.apigithubuserapp.R
 import com.izo.apigithubuserapp.adapter.UserAdapter
 import com.izo.apigithubuserapp.data.Result
 import com.izo.apigithubuserapp.databinding.ActivityMainBinding
@@ -91,6 +94,18 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intentToDetail)
             }
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.option_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val intentToFavorite = Intent(this, FavoriteActivity::class.java)
+        startActivity(intentToFavorite)
+        return true
     }
 
     private fun showLoading(isLoading: Boolean) {

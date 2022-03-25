@@ -55,7 +55,6 @@ class UserRepository private constructor(
     }
 
     // Mengambil user dari key search
-    // Mengambil user dari key search
     fun findUser(username: String?): MutableLiveData<Result<List<ItemsItem>>> {
         result.value = Result.Loading
         val client = apiService.getListUser(username)
@@ -145,6 +144,9 @@ class UserRepository private constructor(
             favoriteDao.insertFavorite(favoriteUser)
         }
     }
+
+    // Ambil data dari room
+    fun getData(): LiveData<List<FavoriteEntity>> = favoriteDao.getFavorite()
 
     companion object {
         @Volatile

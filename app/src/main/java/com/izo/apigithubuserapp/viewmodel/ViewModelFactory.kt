@@ -18,6 +18,8 @@ class ViewModelFactory private constructor(private val userRepository: UserRepos
             return FollowersViewModel(userRepository) as T
         } else if (modelClass.isAssignableFrom(FollowingViewModel::class.java)) {
             return FollowingViewModel(userRepository) as T
+        } else if (modelClass.isAssignableFrom(FavoriteViewModel::class.java)) {
+            return FavoriteViewModel(userRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
     }
