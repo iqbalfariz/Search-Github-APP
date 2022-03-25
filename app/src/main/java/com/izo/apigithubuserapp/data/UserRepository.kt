@@ -155,6 +155,9 @@ class UserRepository private constructor(
         }
     }
 
+    // Check ada di favorite ngga
+    fun isFavorite(userId: Int): LiveData<Boolean> = favoriteDao.isFavorite(userId)
+
     companion object {
         @Volatile
         private var instance: UserRepository? = null

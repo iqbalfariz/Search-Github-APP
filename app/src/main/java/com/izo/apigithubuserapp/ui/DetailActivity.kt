@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
@@ -29,6 +30,7 @@ class DetailActivity : AppCompatActivity() {
     val detailViewModel: DetailViewModel by viewModels {
         factory
     }
+    private var isFavorite = false
 
     companion object {
         @StringRes
@@ -108,9 +110,36 @@ class DetailActivity : AppCompatActivity() {
         detailBinding.tvTotalFollowers.text = "Followers : ${items.followers}"
         detailBinding.tvTotalFollowing.text = "Following : ${items.following}"
 
+        checkFavorite(items.id)
+
         val favoriteUser = FavoriteEntity(items.id, items.login, items.avatarUrl, items.url)
-        detailBinding.button.setOnClickListener {
-            detailViewModel.insertData(favoriteUser)
+
+        detailBinding.fabFavorite.setOnClickListener {
+            if (isFavorite){
+                detailViewModel.deleteData(favoriteUser)
+            } else {
+                detailViewModel.insertData(favoriteUser)
+            }
+        }
+    }
+
+    private fun checkFavorite(id: Int) {
+        detailViewModel.isFavorite(id).observe(this) {userId ->
+            if (userId) {
+                isFavorite = true
+                detailBinding.fabFavorite.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        this, R.drawable.ic_baseline_favorite_blue
+                    )
+                )
+            } else {
+                isFavorite = false
+                detailBinding.fabFavorite.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        this, R.drawable.ic_baseline_favorite_border_blue
+                    )
+                )
+            }
         }
     }
 

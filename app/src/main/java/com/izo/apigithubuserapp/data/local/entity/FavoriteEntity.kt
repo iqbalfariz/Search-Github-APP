@@ -1,5 +1,6 @@
 package com.izo.apigithubuserapp.data.local.entity
 
+import androidx.annotation.ColorInt
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -23,6 +24,5 @@ class FavoriteEntity(
 
     @field:ColumnInfo(name = "url")
     val url: String? = null
-
 
 )

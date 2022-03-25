@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -36,6 +37,7 @@ class FavoriteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         favoriteBinding = ActivityFavoriteBinding.inflate(layoutInflater)
         setContentView(favoriteBinding.root)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 //        favoriteBinding?.rvFavorite?.apply {
 //            layoutManager = LinearLayoutManager(context)
@@ -86,6 +88,13 @@ class FavoriteActivity : AppCompatActivity() {
 //
 //        })
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            onBackPressed()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 
