@@ -5,45 +5,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.izo.apigithubuserapp.ItemsItem
+import com.izo.apigithubuserapp.data.UserRepository
 import com.izo.apigithubuserapp.data.remote.api.ApiConfig
 import retrofit2.Call
 import retrofit2.Response
 
-class FollowersViewModel : ViewModel() {
-
-    private val _listFollowers = MutableLiveData<List<ItemsItem>>()
-    val listFollowers: LiveData<List<ItemsItem>> = _listFollowers
-
-
-    var username: String? = "username"
-
-
-    fun findFollowers(username: String?) {
-        val client = ApiConfig.getApiService().getFollowers(username)
-        client.enqueue(object : retrofit2.Callback<List<ItemsItem>> {
-            override fun onResponse(
-                call: Call<List<ItemsItem>>,
-                response: Response<List<ItemsItem>>
-            ) {
-                // jika koneksi berhasil
-                if (response.isSuccessful) {
-                    val responseBody = response.body()
-                    if (responseBody != null) {
-                        _listFollowers.value = responseBody!!
-                    } else {
-                        Log.e(TAG, "onFailure: ${response.message()}")
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<List<ItemsItem>>, t: Throwable) {
-                Log.e(TAG, "onFailure: ${t.message}")
-            }
-
-        })
-    }
-
-    companion object {
-        private const val TAG = "FollowersFragment"
-    }
+class FollowersViewModel(private val userRepository: UserRepository) : ViewModel() {
+    fun getListFollowers(username: String?) = userRepository.getListFollowers(username)
 }

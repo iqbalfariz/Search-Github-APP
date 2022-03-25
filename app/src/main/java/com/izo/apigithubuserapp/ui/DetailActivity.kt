@@ -1,10 +1,12 @@
 package com.izo.apigithubuserapp.ui
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +16,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.izo.apigithubuserapp.R
 import com.izo.apigithubuserapp.adapter.SectionsPagerAdapter
+import com.izo.apigithubuserapp.data.Result
 import com.izo.apigithubuserapp.databinding.ActivityDetailBinding
 import com.izo.apigithubuserapp.data.remote.response.DetailUserResponse
 import com.izo.apigithubuserapp.viewmodel.DetailViewModel
@@ -21,7 +24,7 @@ import com.izo.apigithubuserapp.viewmodel.DetailViewModel
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var detailBinding: ActivityDetailBinding
-    private val detailViewModel by viewModels<DetailViewModel>()
+//    private val detailViewModel by detailViewModels<DetailViewModel>()
 
     companion object {
         @StringRes
@@ -56,20 +59,50 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.title = "Detail User"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        // Mengambil data api
-        if (savedInstanceState == null) {
-            detailViewModel.findDetailUser(username)
-            Log.e(TAG, "Get Detail User")
+        val factory: ViewModelFactory = ViewModelFactory.getInstance(this)
+        val detailViewModel: DetailViewModel by viewModels {
+            factory
         }
+
+        // Mengambil data api
+            detailViewModel.getDetailUser(username).observe(this) { result ->
+                if (result != null) {
+                    when (result) {
+                        is Result.Loading -> {
+                            showLoading(true)
+                        }
+                        is Result.Success -> {
+                            showLoading(false)
+                            setRecapLayout(result.data)
+                        }
+                        is Result.Error -> {
+                            showLoading(false)
+                            Toast.makeText(
+                                this,
+                                "Terjadi kesalahan" + result.error,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
+            }
+
+
 
         // Observe data detail user
-        detailViewModel.detailUser.observe(this) { items ->
-            setRecapLayout(items)
-        }
+//        detailViewModel.detailUser.observe(this) { items ->
+//            setRecapLayout(items)
+//        }
+//
+//        detailViewModel.isLoading.observe(this) {
+//            showLoading(it)
+//        }
 
-        detailViewModel.isLoading.observe(this) {
-            showLoading(it)
-        }
+//        detailBinding.button.setOnClickListener {
+//            val intentToFavorite = Intent(this@DetailActivity, FavoriteActivity::class.java)
+//            intentToFavorite.putExtra(USERNAME, username)
+//            startActivity(intentToFavorite)
+//        }
 
     }
 

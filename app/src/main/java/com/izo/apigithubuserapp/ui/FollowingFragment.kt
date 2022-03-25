@@ -5,13 +5,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.izo.apigithubuserapp.ItemsItem
 import com.izo.apigithubuserapp.adapter.FollowAdapter
+import com.izo.apigithubuserapp.data.Result
 import com.izo.apigithubuserapp.databinding.FragmentFollowingBinding
+import com.izo.apigithubuserapp.viewmodel.FollowersViewModel
 import com.izo.apigithubuserapp.viewmodel.FollowingViewModel
 
 class FollowingFragment : Fragment() {
@@ -37,25 +40,39 @@ class FollowingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val factory: ViewModelFactory = ViewModelFactory.getInstance(requireActivity())
+        val followingViewModel: FollowingViewModel by viewModels {
+            factory
+        }
+
         // Mengambil data username dari detail
         val args = arguments
         val username = args?.getString(DetailActivity.DATA)
         Log.e(TAG, "username following: ${username}")
 
-        // Mengambil data api
-        if (savedInstanceState == null) {
-            followingViewModel.findFollowing(username)
-            Log.e(TAG, "Get Following")
+        // Mengambil data following
+        followingViewModel.getListFollowing(username).observe(viewLifecycleOwner) {result ->
+            if (result != null) {
+                when (result) {
+                    is Result.Loading -> {
+                        showLoading(true)
+                    }
+                    is Result.Success -> {
+                        showLoading(false)
+                        setRecyclerView(result.data)
+                    }
+                    is Result.Error -> {
+                        showLoading(false)
+                        Toast.makeText(
+                            requireActivity(),
+                            "Terjadi kesalahan" + result.error,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
         }
 
-        // Observe list following
-        followingViewModel.listFollowing.observe(requireActivity()) { items ->
-            setRecyclerView(items)
-        }
-
-        followingViewModel.isLoading.observe(requireActivity()) {
-            showLoading(it)
-        }
     }
 
 

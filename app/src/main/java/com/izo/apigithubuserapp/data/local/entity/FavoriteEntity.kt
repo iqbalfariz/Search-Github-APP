@@ -7,12 +7,13 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "favorite")
 class FavoriteEntity(
 
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
-    var id: Int = 0,
+//    @PrimaryKey(autoGenerate = true)
+//    @ColumnInfo(name = "id")
+//    var id: Int = 0,
 
+    @PrimaryKey
     @field:ColumnInfo(name = "userId")
-    val userId: String? = null,
+    val userId: Int? = null,
 
     @field:ColumnInfo(name = "username")
     val username: String? = null,

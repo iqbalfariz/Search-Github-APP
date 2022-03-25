@@ -1,5 +1,6 @@
 package com.izo.apigithubuserapp.data.remote.api
 
+import androidx.lifecycle.LiveData
 import com.izo.apigithubuserapp.BuildConfig
 import com.izo.apigithubuserapp.ItemsItem
 import com.izo.apigithubuserapp.UserResponse
@@ -21,7 +22,7 @@ interface ApiService {
 
     @GET("/search/users")
     fun getListUser(
-        @Query("q") q: String
+        @Query("q") q: String?
     ): Call<UserResponse>
 
     @GET("/users/{username}/followers")

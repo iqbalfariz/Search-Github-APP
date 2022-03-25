@@ -11,13 +11,15 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.izo.apigithubuserapp.ItemsItem
 import com.izo.apigithubuserapp.adapter.UserAdapter
+import com.izo.apigithubuserapp.data.Result
 import com.izo.apigithubuserapp.databinding.ActivityMainBinding
+import com.izo.apigithubuserapp.viewmodel.DetailViewModel
 import com.izo.apigithubuserapp.viewmodel.MainViewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var activityMainBinding: ActivityMainBinding
-    private val mainViewModel by viewModels<MainViewModel>()
+//    private val mainViewModel by viewModels<MainViewModel>()
 
     companion object {
         private const val TAG = "MainActivity"
@@ -28,11 +30,37 @@ class MainActivity : AppCompatActivity() {
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
 
+        val factory: ViewModelFactory = ViewModelFactory.getInstance(this)
+        val mainViewModel: MainViewModel by viewModels {
+            factory
+        }
+
+
         // Mengatur search view
         activityMainBinding.svUser.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             // Jika text di submit
             override fun onQueryTextSubmit(query: String): Boolean {
-                mainViewModel.findUser(query)
+                mainViewModel.findUser(query).observe(this@MainActivity) { result ->
+                    if (result != null) {
+                        when (result) {
+                            is Result.Loading -> {
+                                showLoading(true)
+                            }
+                            is Result.Success -> {
+                                showLoading(false)
+                                setData(result.data)
+                            }
+                            is Result.Error -> {
+                                showLoading(false)
+                                Toast.makeText(
+                                    this@MainActivity,
+                                    "Terjadi kesalahan" + result.error,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }
+                }
                 activityMainBinding.svUser.clearFocus()
                 return true
             }
@@ -44,21 +72,9 @@ class MainActivity : AppCompatActivity() {
 
         })
 
-        // observe list data
-        mainViewModel.listData.observe(this@MainActivity) { items ->
-            if (items.size == 0) {
-                Toast.makeText(this@MainActivity, "Error : Data tidak ada", Toast.LENGTH_LONG)
-                    .show()
-            } else {
-                setData(items)
-            }
-        }
 
-        // observe loading progress bar
-        mainViewModel.isLoading.observe(this) {
-            showLoading(it)
-        }
     }
+
 
     private fun setData(items: List<ItemsItem>) {
         val layoutManager = LinearLayoutManager(this)

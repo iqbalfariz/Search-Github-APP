@@ -5,13 +5,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.izo.apigithubuserapp.ItemsItem
 import com.izo.apigithubuserapp.adapter.FollowAdapter
+import com.izo.apigithubuserapp.data.Result
 import com.izo.apigithubuserapp.databinding.FragmentFollowersBinding
+import com.izo.apigithubuserapp.viewmodel.DetailViewModel
 import com.izo.apigithubuserapp.viewmodel.FollowersViewModel
 
 class FollowersFragment : Fragment() {
@@ -38,20 +42,36 @@ class FollowersFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val factory: ViewModelFactory = ViewModelFactory.getInstance(requireActivity())
+        val followersViewModel: FollowersViewModel by viewModels {
+            factory
+        }
+
         // Mengambil data username dari detail
         val args = arguments
         val username = args?.getString(DetailActivity.DATA)
         Log.e(TAG, "username follower: ${username}")
 
-        // Mengambil data api
-        if (savedInstanceState == null) {
-            followersViewModel.findFollowers(username)
-            Log.e(TAG, "Get Followers")
-        }
-
-        // Observe list followers
-        followersViewModel.listFollowers.observe(requireActivity()) { items ->
-            setRecyclerView(items)
+        followersViewModel.getListFollowers(username).observe(viewLifecycleOwner) {result ->
+            if (result != null) {
+                when (result) {
+                    is Result.Loading -> {
+                        showLoading(true)
+                    }
+                    is Result.Success -> {
+                        showLoading(false)
+                        setRecyclerView(result.data)
+                    }
+                    is Result.Error -> {
+                        showLoading(false)
+                        Toast.makeText(
+                            requireActivity(),
+                            "Terjadi kesalahan" + result.error,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
         }
 
     }
@@ -67,6 +87,10 @@ class FollowersFragment : Fragment() {
         listFollowers.addAll(items)
         val adapter = FollowAdapter(listFollowers)
         binding.rvFollowers.adapter = adapter
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
 
