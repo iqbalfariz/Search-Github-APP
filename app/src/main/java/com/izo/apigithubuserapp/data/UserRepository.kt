@@ -148,6 +148,13 @@ class UserRepository private constructor(
     // Ambil data dari room
     fun getData(): LiveData<List<FavoriteEntity>> = favoriteDao.getFavorite()
 
+    // Delete data user dari room
+    fun deleteData(favoriteUser: FavoriteEntity){
+        appExecutors.diskIO.execute {
+            favoriteDao.deleteFavorite(favoriteUser)
+        }
+    }
+
     companion object {
         @Volatile
         private var instance: UserRepository? = null
