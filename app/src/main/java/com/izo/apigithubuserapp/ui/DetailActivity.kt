@@ -17,6 +17,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.izo.apigithubuserapp.R
 import com.izo.apigithubuserapp.adapter.SectionsPagerAdapter
 import com.izo.apigithubuserapp.data.Result
+import com.izo.apigithubuserapp.data.local.entity.FavoriteEntity
 import com.izo.apigithubuserapp.databinding.ActivityDetailBinding
 import com.izo.apigithubuserapp.data.remote.response.DetailUserResponse
 import com.izo.apigithubuserapp.viewmodel.DetailViewModel
@@ -25,6 +26,10 @@ class DetailActivity : AppCompatActivity() {
 
     private lateinit var detailBinding: ActivityDetailBinding
 //    private val detailViewModel by detailViewModels<DetailViewModel>()
+    val factory: ViewModelFactory = ViewModelFactory.getInstance(this)
+    val detailViewModel: DetailViewModel by viewModels {
+        factory
+    }
 
     companion object {
         @StringRes
@@ -59,10 +64,7 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.title = "Detail User"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val factory: ViewModelFactory = ViewModelFactory.getInstance(this)
-        val detailViewModel: DetailViewModel by viewModels {
-            factory
-        }
+
 
         // Mengambil data api
             detailViewModel.getDetailUser(username).observe(this) { result ->
@@ -89,21 +91,6 @@ class DetailActivity : AppCompatActivity() {
 
 
 
-        // Observe data detail user
-//        detailViewModel.detailUser.observe(this) { items ->
-//            setRecapLayout(items)
-//        }
-//
-//        detailViewModel.isLoading.observe(this) {
-//            showLoading(it)
-//        }
-
-//        detailBinding.button.setOnClickListener {
-//            val intentToFavorite = Intent(this@DetailActivity, FavoriteActivity::class.java)
-//            intentToFavorite.putExtra(USERNAME, username)
-//            startActivity(intentToFavorite)
-//        }
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -121,6 +108,11 @@ class DetailActivity : AppCompatActivity() {
         detailBinding.tvLocation.text = items.location
         detailBinding.tvTotalFollowers.text = "Followers : ${items.followers}"
         detailBinding.tvTotalFollowing.text = "Following : ${items.following}"
+
+        val favoriteUser = FavoriteEntity(items.id, items.login, items.avatarUrl, items.url)
+        detailBinding.button.setOnClickListener {
+            detailViewModel.insertData(favoriteUser)
+        }
     }
 
 

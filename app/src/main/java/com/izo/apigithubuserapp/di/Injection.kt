@@ -12,6 +12,6 @@ object Injection {
         val database = FavoriteDatabase.getInstance(context)
         val dao = database.favoriteDao()
         val appExecutors = AppExecutors()
-        return UserRepository.getInstance(apiService)
+        return UserRepository.getInstance(apiService, dao, appExecutors)
     }
 }

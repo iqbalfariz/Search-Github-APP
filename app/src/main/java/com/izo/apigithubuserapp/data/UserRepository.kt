@@ -6,6 +6,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.izo.apigithubuserapp.ItemsItem
 import com.izo.apigithubuserapp.UserResponse
+import com.izo.apigithubuserapp.data.local.entity.FavoriteEntity
 import com.izo.apigithubuserapp.data.local.room.FavoriteDao
 import com.izo.apigithubuserapp.data.remote.api.ApiConfig
 import com.izo.apigithubuserapp.data.remote.api.ApiService
@@ -18,7 +19,9 @@ import retrofit2.Call
 import retrofit2.Response
 
 class UserRepository private constructor(
-    private val apiService: ApiService
+    private val apiService: ApiService,
+    private val favoriteDao: FavoriteDao,
+    private val appExecutors: AppExecutors
 ) {
 //    private val result = MediatorLiveData<Result<LiveData<DetailUserResponse>>>()
 
@@ -136,14 +139,23 @@ class UserRepository private constructor(
         return result
     }
 
+    // input data detail ke database
+    fun insertData(favoriteUser: FavoriteEntity){
+        appExecutors.diskIO.execute {
+            favoriteDao.insertFavorite(favoriteUser)
+        }
+    }
+
     companion object {
         @Volatile
         private var instance: UserRepository? = null
         fun getInstance(
-            apiService: ApiService
+            apiService: ApiService,
+            favoriteDao: FavoriteDao,
+            appExecutors: AppExecutors
         ): UserRepository =
             instance ?: synchronized(this) {
-                instance ?: UserRepository(apiService)
+                instance ?: UserRepository(apiService, favoriteDao, appExecutors)
             }.also { instance = it }
     }
 }

@@ -12,9 +12,10 @@ import retrofit2.Call
 import retrofit2.Response
 
 class MainViewModel(private val userRepository: UserRepository) : ViewModel() {
-//    init {
-//        findUser("iqbal")
-//    }
+
+    init {
+        findUser("iqbal")
+    }
 
     fun findUser(username: String?) = userRepository.findUser(username)
 

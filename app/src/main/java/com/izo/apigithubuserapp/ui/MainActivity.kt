@@ -75,6 +75,29 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun getData(username: String?, mainViewModel: MainViewModel) {
+        mainViewModel.findUser(username).observe(this@MainActivity) { result ->
+            if (result != null) {
+                when (result) {
+                    is Result.Loading -> {
+                        showLoading(true)
+                    }
+                    is Result.Success -> {
+                        showLoading(false)
+                        setData(result.data)
+                    }
+                    is Result.Error -> {
+                        showLoading(false)
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Terjadi kesalahan" + result.error,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
+        }
+    }
 
     private fun setData(items: List<ItemsItem>) {
         val layoutManager = LinearLayoutManager(this)
