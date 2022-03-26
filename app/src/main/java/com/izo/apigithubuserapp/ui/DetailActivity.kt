@@ -129,14 +129,14 @@ class DetailActivity : AppCompatActivity() {
                 isFavorite = true
                 detailBinding.fabFavorite.setImageDrawable(
                     ContextCompat.getDrawable(
-                        this, R.drawable.ic_baseline_favorite_blue
+                        this, R.drawable.ic_baseline_favorite_green
                     )
                 )
             } else {
                 isFavorite = false
                 detailBinding.fabFavorite.setImageDrawable(
                     ContextCompat.getDrawable(
-                        this, R.drawable.ic_baseline_favorite_border_blue
+                        this, R.drawable.ic_baseline_favorite_border_green
                     )
                 )
             }

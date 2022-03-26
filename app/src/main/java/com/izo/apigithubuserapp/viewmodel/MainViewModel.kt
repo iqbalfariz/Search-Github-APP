@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import com.izo.apigithubuserapp.ItemsItem
 import com.izo.apigithubuserapp.UserResponse
 import com.izo.apigithubuserapp.data.Result
@@ -20,4 +21,6 @@ class MainViewModel(private val userRepository: UserRepository) : ViewModel() {
     }
 
     fun findUser(username: String?) = userRepository.findUser(username)
+
+    fun getThemeSetting() = userRepository.getThemeSetting().asLiveData()
 }

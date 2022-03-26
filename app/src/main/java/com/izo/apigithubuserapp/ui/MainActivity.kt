@@ -9,6 +9,7 @@ import android.widget.SearchView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.izo.apigithubuserapp.ItemsItem
@@ -76,6 +77,15 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+
+        // mengatur tema
+        mainViewModel.getThemeSetting().observe(this) {isDarkModeActive ->
+            if (isDarkModeActive) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        }
     }
 
     private fun setData(items: List<ItemsItem>) {
@@ -103,8 +113,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val intentToFavorite = Intent(this, FavoriteActivity::class.java)
-        startActivity(intentToFavorite)
+        when (item.itemId){
+            R.id.menu_favorite -> {
+                val intentToFavorite = Intent(this, FavoriteActivity::class.java)
+                startActivity(intentToFavorite)
+            }
+            R.id.menu_setting_theme -> {
+                val intentToSettingTheme = Intent(this, SettingThemeActivity::class.java)
+                startActivity(intentToSettingTheme)
+            }
+        }
         return true
     }
 

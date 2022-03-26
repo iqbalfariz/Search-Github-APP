@@ -1,10 +1,15 @@
 package com.izo.apigithubuserapp.viewmodel
 
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.izo.apigithubuserapp.data.UserRepository
 import com.izo.apigithubuserapp.di.Injection
+
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "application")
 
 class ViewModelFactory private constructor(private val userRepository: UserRepository) :
     ViewModelProvider.NewInstanceFactory() {
@@ -20,6 +25,8 @@ class ViewModelFactory private constructor(private val userRepository: UserRepos
             return FollowingViewModel(userRepository) as T
         } else if (modelClass.isAssignableFrom(FavoriteViewModel::class.java)) {
             return FavoriteViewModel(userRepository) as T
+        } else if (modelClass.isAssignableFrom(SettingThemeViewModel::class.java)) {
+            return SettingThemeViewModel(userRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
     }
@@ -29,7 +36,7 @@ class ViewModelFactory private constructor(private val userRepository: UserRepos
         private var instance: ViewModelFactory? = null
         fun getInstance(context: Context): ViewModelFactory =
             instance ?: synchronized(this) {
-                instance ?: ViewModelFactory(Injection.provideRepository(context))
+                instance ?: ViewModelFactory(Injection.provideRepository(context, context.dataStore))
             }.also { instance = it }
     }
 }

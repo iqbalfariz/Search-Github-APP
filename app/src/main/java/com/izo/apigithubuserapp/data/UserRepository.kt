@@ -1,27 +1,23 @@
 package com.izo.apigithubuserapp.data
 
-import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.izo.apigithubuserapp.ItemsItem
 import com.izo.apigithubuserapp.UserResponse
 import com.izo.apigithubuserapp.data.local.entity.FavoriteEntity
 import com.izo.apigithubuserapp.data.local.room.FavoriteDao
-import com.izo.apigithubuserapp.data.remote.api.ApiConfig
 import com.izo.apigithubuserapp.data.remote.api.ApiService
 import com.izo.apigithubuserapp.data.remote.response.DetailUserResponse
 import com.izo.apigithubuserapp.utils.AppExecutors
-import com.izo.apigithubuserapp.viewmodel.DetailViewModel
-import com.izo.apigithubuserapp.viewmodel.FollowersViewModel
-import com.izo.apigithubuserapp.viewmodel.MainViewModel
+import kotlinx.coroutines.flow.Flow
 import retrofit2.Call
 import retrofit2.Response
 
 class UserRepository private constructor(
     private val apiService: ApiService,
     private val favoriteDao: FavoriteDao,
-    private val appExecutors: AppExecutors
+    private val appExecutors: AppExecutors,
+    private val themePreferences: ThemePreferences
 ) {
 //    private val result = MediatorLiveData<Result<LiveData<DetailUserResponse>>>()
    val result = MutableLiveData<Result<List<ItemsItem>>>()
@@ -158,16 +154,25 @@ class UserRepository private constructor(
     // Check ada di favorite ngga
     fun isFavorite(userId: Int): LiveData<Boolean> = favoriteDao.isFavorite(userId)
 
+    fun getThemeSetting(): Flow<Boolean> = themePreferences.getThemeSetting()
+
+    suspend fun saveThemeSetting(isDarkModeActive: Boolean){
+        themePreferences.saveThemeSetting(isDarkModeActive)
+    }
+
+
+
     companion object {
         @Volatile
         private var instance: UserRepository? = null
         fun getInstance(
             apiService: ApiService,
             favoriteDao: FavoriteDao,
-            appExecutors: AppExecutors
+            appExecutors: AppExecutors,
+            themePreferences: ThemePreferences
         ): UserRepository =
             instance ?: synchronized(this) {
-                instance ?: UserRepository(apiService, favoriteDao, appExecutors)
+                instance ?: UserRepository(apiService, favoriteDao, appExecutors, themePreferences)
             }.also { instance = it }
     }
 }

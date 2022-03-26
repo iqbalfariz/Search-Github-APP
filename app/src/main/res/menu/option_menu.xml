@@ -8,6 +8,12 @@
             android:icon="@drawable/ic_baseline_favorite_24"
             app:showAsAction="always"
             />
+
+        <item android:id="@+id/menu_setting_theme"
+            android:title="@string/favorite"
+            android:icon="@drawable/ic_baseline_settings_brightness_24"
+            app:showAsAction="always"
+            />
     </group>
 
 </menu>
