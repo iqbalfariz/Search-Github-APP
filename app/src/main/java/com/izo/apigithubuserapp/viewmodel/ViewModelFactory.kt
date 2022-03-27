@@ -15,20 +15,28 @@ class ViewModelFactory private constructor(private val userRepository: UserRepos
     ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(DetailViewModel::class.java)) {
-            return DetailViewModel(userRepository) as T
-        } else if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
-            return MainViewModel(userRepository) as T
-        } else if (modelClass.isAssignableFrom(FollowersViewModel::class.java)) {
-            return FollowersViewModel(userRepository) as T
-        } else if (modelClass.isAssignableFrom(FollowingViewModel::class.java)) {
-            return FollowingViewModel(userRepository) as T
-        } else if (modelClass.isAssignableFrom(FavoriteViewModel::class.java)) {
-            return FavoriteViewModel(userRepository) as T
-        } else if (modelClass.isAssignableFrom(SettingThemeViewModel::class.java)) {
-            return SettingThemeViewModel(userRepository) as T
+        return when {
+            modelClass.isAssignableFrom(DetailViewModel::class.java) -> {
+                DetailViewModel(userRepository) as T
+            }
+            modelClass.isAssignableFrom(MainViewModel::class.java) -> {
+                MainViewModel(userRepository) as T
+            }
+            modelClass.isAssignableFrom(FollowersViewModel::class.java) -> {
+                FollowersViewModel(userRepository) as T
+            }
+            modelClass.isAssignableFrom(FollowingViewModel::class.java) -> {
+                FollowingViewModel(userRepository) as T
+            }
+            modelClass.isAssignableFrom(FavoriteViewModel::class.java) -> {
+                FavoriteViewModel(userRepository) as T
+            }
+            modelClass.isAssignableFrom(SettingThemeViewModel::class.java) -> {
+                SettingThemeViewModel(userRepository) as T
+            }
+            else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
-        throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
+
     }
 
     companion object {
@@ -36,7 +44,12 @@ class ViewModelFactory private constructor(private val userRepository: UserRepos
         private var instance: ViewModelFactory? = null
         fun getInstance(context: Context): ViewModelFactory =
             instance ?: synchronized(this) {
-                instance ?: ViewModelFactory(Injection.provideRepository(context, context.dataStore))
+                instance ?: ViewModelFactory(
+                    Injection.provideRepository(
+                        context,
+                        context.dataStore
+                    )
+                )
             }.also { instance = it }
     }
 }

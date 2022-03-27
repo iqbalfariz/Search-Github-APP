@@ -41,6 +41,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:visibility="visible"
+        android:backgroundTint="@color/turqoise_mid"
         />
 
 

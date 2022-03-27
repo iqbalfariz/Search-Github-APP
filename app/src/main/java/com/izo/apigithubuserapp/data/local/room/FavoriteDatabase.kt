@@ -10,7 +10,7 @@ import com.izo.apigithubuserapp.data.local.entity.FavoriteEntity
 abstract class FavoriteDatabase : RoomDatabase() {
     abstract fun favoriteDao(): FavoriteDao
 
-    companion object{
+    companion object {
         @Volatile
         private var instance: FavoriteDatabase? = null
         fun getInstance(context: Context): FavoriteDatabase =

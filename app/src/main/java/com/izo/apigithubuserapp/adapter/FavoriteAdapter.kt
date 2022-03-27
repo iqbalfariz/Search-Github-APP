@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.izo.apigithubuserapp.data.local.entity.FavoriteEntity
 import com.izo.apigithubuserapp.databinding.ItemRowFavoriteBinding
-import com.izo.apigithubuserapp.databinding.ItemRowRvBinding
 
 class FavoriteAdapter(private val listFavoriteUser: List<FavoriteEntity>) :
     RecyclerView.Adapter<FavoriteAdapter.ViewHolder>() {
@@ -46,7 +45,8 @@ class FavoriteAdapter(private val listFavoriteUser: List<FavoriteEntity>) :
 
     override fun getItemCount(): Int = listFavoriteUser.size
 
-    inner class ViewHolder(var binding: ItemRowFavoriteBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class ViewHolder(var binding: ItemRowFavoriteBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     interface OnItemClickCallback {
         fun onItemClicked(data: FavoriteEntity)

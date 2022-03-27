@@ -23,12 +23,7 @@ import com.izo.apigithubuserapp.viewmodel.ViewModelFactory
 class MainActivity : AppCompatActivity() {
 
     private lateinit var activityMainBinding: ActivityMainBinding
-    private lateinit var adapter: UserAdapter
-//    private val mainViewModel by viewModels<MainViewModel>()
 
-    companion object {
-        private const val TAG = "MainActivity"
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,7 +74,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         // mengatur tema
-        mainViewModel.getThemeSetting().observe(this) {isDarkModeActive ->
+        mainViewModel.getThemeSetting().observe(this) { isDarkModeActive ->
             if (isDarkModeActive) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             } else {
@@ -113,7 +108,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId){
+        when (item.itemId) {
             R.id.menu_favorite -> {
                 val intentToFavorite = Intent(this, FavoriteActivity::class.java)
                 startActivity(intentToFavorite)

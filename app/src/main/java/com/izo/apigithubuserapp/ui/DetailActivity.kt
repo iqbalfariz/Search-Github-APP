@@ -1,6 +1,7 @@
 package com.izo.apigithubuserapp.ui
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -17,31 +18,20 @@ import com.izo.apigithubuserapp.R
 import com.izo.apigithubuserapp.adapter.SectionsPagerAdapter
 import com.izo.apigithubuserapp.data.Result
 import com.izo.apigithubuserapp.data.local.entity.FavoriteEntity
-import com.izo.apigithubuserapp.databinding.ActivityDetailBinding
 import com.izo.apigithubuserapp.data.remote.response.DetailUserResponse
+import com.izo.apigithubuserapp.databinding.ActivityDetailBinding
 import com.izo.apigithubuserapp.viewmodel.DetailViewModel
 import com.izo.apigithubuserapp.viewmodel.ViewModelFactory
 
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var detailBinding: ActivityDetailBinding
-//    private val detailViewModel by detailViewModels<DetailViewModel>()
+
     val factory: ViewModelFactory = ViewModelFactory.getInstance(this)
     val detailViewModel: DetailViewModel by viewModels {
         factory
     }
     private var isFavorite = false
-
-    companion object {
-        @StringRes
-        private val TAB_TITLES = intArrayOf(
-            R.string.tab_text_1,
-            R.string.tab_text_2
-        )
-
-        private const val TAG = "DetailActivity"
-        const val DATA = "data"
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,32 +55,28 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.title = "Detail User"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-
-
         // Mengambil data api
-            detailViewModel.getDetailUser(username).observe(this) { result ->
-                if (result != null) {
-                    when (result) {
-                        is Result.Loading -> {
-                            showLoading(true)
-                        }
-                        is Result.Success -> {
-                            showLoading(false)
-                            setRecapLayout(result.data)
-                        }
-                        is Result.Error -> {
-                            showLoading(false)
-                            Toast.makeText(
-                                this,
-                                "Terjadi kesalahan" + result.error,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
+        detailViewModel.getDetailUser(username).observe(this) { result ->
+            if (result != null) {
+                when (result) {
+                    is Result.Loading -> {
+                        showLoading(true)
+                    }
+                    is Result.Success -> {
+                        showLoading(false)
+                        setRecapLayout(result.data)
+                    }
+                    is Result.Error -> {
+                        showLoading(false)
+                        Toast.makeText(
+                            this,
+                            "Terjadi kesalahan" + result.error,
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
-
-
+        }
 
     }
 
@@ -112,19 +98,29 @@ class DetailActivity : AppCompatActivity() {
 
         checkFavorite(items.id)
 
-        val favoriteUser = FavoriteEntity(items.id, items.login, items.avatarUrl, items.url)
+        val favoriteUser = FavoriteEntity(items.id, items.login, items.avatarUrl, items.htmlUrl)
 
         detailBinding.fabFavorite.setOnClickListener {
-            if (isFavorite){
+            if (isFavorite) {
                 detailViewModel.deleteData(favoriteUser)
             } else {
                 detailViewModel.insertData(favoriteUser)
             }
         }
+
+        detailBinding.fabShare.setOnClickListener {
+            val sendIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, "${items.htmlUrl}")
+                type = "text/plain"
+            }
+            val shareIntent = Intent.createChooser(sendIntent, null)
+            startActivity(shareIntent)
+        }
     }
 
     private fun checkFavorite(id: Int) {
-        detailViewModel.isFavorite(id).observe(this) {userId ->
+        detailViewModel.isFavorite(id).observe(this) { userId ->
             if (userId) {
                 isFavorite = true
                 detailBinding.fabFavorite.setImageDrawable(
@@ -153,5 +149,16 @@ class DetailActivity : AppCompatActivity() {
             onBackPressed()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    companion object {
+        @StringRes
+        private val TAB_TITLES = intArrayOf(
+            R.string.tab_text_1,
+            R.string.tab_text_2
+        )
+
+        private const val TAG = "DetailActivity"
+        const val DATA = "data"
     }
 }

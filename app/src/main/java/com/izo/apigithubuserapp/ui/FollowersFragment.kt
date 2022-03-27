@@ -21,18 +21,11 @@ class FollowersFragment : Fragment() {
 
     private var _binding: FragmentFollowersBinding? = null
     private val binding get() = _binding!!
-//    private val followersViewModel by viewModels<FollowersViewModel>()
-
-    companion object {
-        private const val TAG = "FollowersFragment"
-    }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         _binding = FragmentFollowersBinding.inflate(layoutInflater)
         val view = binding.root
         return view
@@ -49,9 +42,8 @@ class FollowersFragment : Fragment() {
         // Mengambil data username dari detail
         val args = arguments
         val username = args?.getString(DetailActivity.DATA)
-        Log.e(TAG, "username follower: ${username}")
 
-        followersViewModel.getListFollowers(username).observe(viewLifecycleOwner) {result ->
+        followersViewModel.getListFollowers(username).observe(viewLifecycleOwner) { result ->
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {

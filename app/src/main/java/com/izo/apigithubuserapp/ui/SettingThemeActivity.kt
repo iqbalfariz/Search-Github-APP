@@ -1,18 +1,14 @@
 package com.izo.apigithubuserapp.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.CompoundButton
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import com.google.android.material.switchmaterial.SwitchMaterial
-import com.izo.apigithubuserapp.R
 import com.izo.apigithubuserapp.databinding.ActivitySettingThemeBinding
-import com.izo.apigithubuserapp.viewmodel.MainViewModel
 import com.izo.apigithubuserapp.viewmodel.SettingThemeViewModel
 import com.izo.apigithubuserapp.viewmodel.ViewModelFactory
-import kotlinx.coroutines.flow.collect
 
 class SettingThemeActivity : AppCompatActivity() {
 
@@ -22,7 +18,10 @@ class SettingThemeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         settingThemeBinding = ActivitySettingThemeBinding.inflate(layoutInflater)
         setContentView(settingThemeBinding.root)
+        supportActionBar?.elevation = 0f
+        supportActionBar?.title = "Setting Theme"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
 
         val factory: ViewModelFactory = ViewModelFactory.getInstance(this)
         val settingThemeViewModel: SettingThemeViewModel by viewModels {
@@ -31,7 +30,7 @@ class SettingThemeActivity : AppCompatActivity() {
 
         val switchTheme = settingThemeBinding.switchTheme
 
-        settingThemeViewModel.getThemeSetting().observe(this) {isDarkModeActive ->
+        settingThemeViewModel.getThemeSetting().observe(this) { isDarkModeActive ->
             if (isDarkModeActive) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 switchTheme.isChecked = true

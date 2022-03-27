@@ -19,20 +19,21 @@ class UserRepository private constructor(
     private val appExecutors: AppExecutors,
     private val themePreferences: ThemePreferences
 ) {
-//    private val result = MediatorLiveData<Result<LiveData<DetailUserResponse>>>()
-   val result = MutableLiveData<Result<List<ItemsItem>>>()
+
+    val result = MutableLiveData<Result<List<ItemsItem>>>()
+
     // Mengambil data detail user
     fun getDetailUser(username: String?): LiveData<Result<DetailUserResponse>> {
         val result = MutableLiveData<Result<DetailUserResponse>>()
         result.value = Result.Loading
         val client = apiService.getUser(username)
-        client.enqueue(object : retrofit2.Callback<DetailUserResponse>{
-            // jika koneksi berhasil
+        client.enqueue(object : retrofit2.Callback<DetailUserResponse> {
+            // jika koneksi sukses
             override fun onResponse(
                 call: Call<DetailUserResponse>,
                 response: Response<DetailUserResponse>
             ) {
-                if(response.isSuccessful) {
+                if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
                         result.value = Result.Success(responseBody)
@@ -43,6 +44,7 @@ class UserRepository private constructor(
             }
 
             override fun onFailure(call: Call<DetailUserResponse>, t: Throwable) {
+                // jika koneksi gagal
                 result.value = Result.Error(t.message.toString())
             }
 
@@ -56,7 +58,6 @@ class UserRepository private constructor(
         val client = apiService.getListUser(username)
         client.enqueue(object : retrofit2.Callback<UserResponse> {
             override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
-                // jika koneksi sukses
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
@@ -68,7 +69,6 @@ class UserRepository private constructor(
             }
 
             override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                // jika koneksi gagal
                 result.value = Result.Error(t.message.toString())
             }
 
@@ -86,7 +86,6 @@ class UserRepository private constructor(
                 call: Call<List<ItemsItem>>,
                 response: Response<List<ItemsItem>>
             ) {
-                // jika koneksi berhasil
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
@@ -115,7 +114,6 @@ class UserRepository private constructor(
                 call: Call<List<ItemsItem>>,
                 response: Response<List<ItemsItem>>
             ) {
-                // jika koneksi berhasil
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
@@ -135,7 +133,7 @@ class UserRepository private constructor(
     }
 
     // input data detail ke database
-    fun insertData(favoriteUser: FavoriteEntity){
+    fun insertData(favoriteUser: FavoriteEntity) {
         appExecutors.diskIO.execute {
             favoriteDao.insertFavorite(favoriteUser)
         }
@@ -145,21 +143,21 @@ class UserRepository private constructor(
     fun getData(): LiveData<List<FavoriteEntity>> = favoriteDao.getFavorite()
 
     // Delete data user dari room
-    fun deleteData(favoriteUser: FavoriteEntity){
+    fun deleteData(favoriteUser: FavoriteEntity) {
         appExecutors.diskIO.execute {
             favoriteDao.deleteFavorite(favoriteUser)
         }
     }
 
-    // Check ada di favorite ngga
+    // Check ada di favorite atau tidak
     fun isFavorite(userId: Int): LiveData<Boolean> = favoriteDao.isFavorite(userId)
 
+    // Mengatur tema aplikasi
     fun getThemeSetting(): Flow<Boolean> = themePreferences.getThemeSetting()
 
-    suspend fun saveThemeSetting(isDarkModeActive: Boolean){
+    suspend fun saveThemeSetting(isDarkModeActive: Boolean) {
         themePreferences.saveThemeSetting(isDarkModeActive)
     }
-
 
 
     companion object {

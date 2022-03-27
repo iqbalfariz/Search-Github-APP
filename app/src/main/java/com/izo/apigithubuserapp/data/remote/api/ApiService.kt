@@ -1,6 +1,5 @@
 package com.izo.apigithubuserapp.data.remote.api
 
-import androidx.lifecycle.LiveData
 import com.izo.apigithubuserapp.BuildConfig
 import com.izo.apigithubuserapp.ItemsItem
 import com.izo.apigithubuserapp.UserResponse

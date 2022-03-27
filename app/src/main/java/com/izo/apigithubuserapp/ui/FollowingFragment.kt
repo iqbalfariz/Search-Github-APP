@@ -21,11 +21,7 @@ class FollowingFragment : Fragment() {
 
     private var _binding: FragmentFollowingBinding? = null
     private val binding get() = _binding!!
-//    private val followingViewModel by viewModels<FollowingViewModel>()
 
-    companion object {
-        private const val TAG = "FollowingFragment"
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,10 +44,9 @@ class FollowingFragment : Fragment() {
         // Mengambil data username dari detail
         val args = arguments
         val username = args?.getString(DetailActivity.DATA)
-        Log.e(TAG, "username following: ${username}")
 
         // Mengambil data following
-        followingViewModel.getListFollowing(username).observe(viewLifecycleOwner) {result ->
+        followingViewModel.getListFollowing(username).observe(viewLifecycleOwner) { result ->
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {
